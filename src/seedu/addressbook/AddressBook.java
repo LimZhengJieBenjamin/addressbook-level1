@@ -22,6 +22,7 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.Comparator;
 
 /*
  * NOTE : =============================================================
@@ -110,6 +111,10 @@ public class AddressBook {
                                         + "keywords (case-sensitive) and displays them as a list with index numbers.";
     private static final String COMMAND_FIND_PARAMETERS = "KEYWORD [MORE_KEYWORDS]";
     private static final String COMMAND_FIND_EXAMPLE = COMMAND_FIND_WORD + " alice bob charlie";
+
+    private static final String COMMAND_SORT_WORD = "sort";
+    private static final String COMMAND_SORT_DESC = "Sorts names in addressbook in alphabetical order";
+    private static final String COMMAND_SORT_EXAMPLE = COMMAND_SORT_WORD;
 
     private static final String COMMAND_LIST_WORD = "list";
     private static final String COMMAND_LIST_DESC = "Displays all persons as a list with index numbers.";
@@ -213,7 +218,7 @@ public class AddressBook {
         run();
         return;
     }
-    
+
     private static void run() {
         while (true) {
             String userCommand = getUserInput();
@@ -374,6 +379,8 @@ public class AddressBook {
         final String commandType = commandTypeAndParams[0];
         final String commandArgs = commandTypeAndParams[1];
         switch (commandType) {
+            case COMMAND_SORT_WORD:
+                return executeSorting();
         case COMMAND_ADD_WORD:
             return executeAddPerson(commandArgs);
         case COMMAND_FIND_WORD:
@@ -391,6 +398,22 @@ public class AddressBook {
         default:
             return getMessageForInvalidCommandInput(commandType, getUsageInfoForAllCommands());
         }
+    }
+
+    private static String executeSorting() {
+        Collections.sort(getAllPersonsInAddressBook(), getStringComparator());
+        return "Sorting Sucesss";
+    }
+
+    private static Comparator<String[]> getStringComparator() {
+        Comparator<String[]> stringComparator = new Comparator<String[]>() {
+            @Override
+            public int compare(String[] o1, String[] o2) {
+                int value = o1[0].compareTo(o2[0]);
+                return value;
+            }
+        };
+        return stringComparator;
     }
 
     /**
