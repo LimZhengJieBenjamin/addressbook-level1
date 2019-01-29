@@ -408,9 +408,9 @@ public class AddressBook {
     private static Comparator<String[]> getStringComparator() {
         Comparator<String[]> stringComparator = new Comparator<String[]>() {
             @Override
-            public int compare(String[] o1, String[] o2) {
-                int value = o1[0].compareTo(o2[0]);
-                return value;
+            public int compare(String[] arr1, String[] arr2) {
+                int result = arr1[0].compareTo(arr2[0]);
+                return result;
             }
         };
         return stringComparator;
